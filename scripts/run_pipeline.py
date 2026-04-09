@@ -5,6 +5,7 @@ steps = [
     ["python3", "scripts/init_db_safe.py"],
     ["python3", "scripts/download_bbx.py"],
     ["python3", "scripts/import_snapshot.py"],
+    ["python3", "scripts/reset_market_stats_table.py"],
     ["python3", "scripts/build_market_stats.py"],
 ]
 
