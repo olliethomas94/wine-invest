@@ -10,7 +10,8 @@ DATA_DIR = "data"
 def clean_text(value):
     if pd.isna(value):
         return None
-    return str(value).strip()
+    text = str(value).strip()
+    return text if text else None
 
 def clean_vintage(value):
     if pd.isna(value):
@@ -27,6 +28,14 @@ def clean_price(value):
         return float(value)
     except Exception:
         return None
+
+def clean_code(value):
+    if pd.isna(value):
+        return None
+    text = str(value).strip()
+    if text.endswith(".0"):
+        text = text[:-2]
+    return text if text else None
 
 def main():
     csv_files = sorted(glob.glob(f"{DATA_DIR}/*.csv"))
@@ -58,7 +67,7 @@ def main():
 
     cur.execute(
         "INSERT INTO snapshots (created_at, source_file) VALUES (?, ?)",
-        (datetime.utcnow().isoformat(), latest_file)
+        (datetime.now().isoformat(), latest_file)
     )
     snapshot_id = cur.lastrowid
 
@@ -92,8 +101,8 @@ def main():
                 clean_price(row.get("PriceExTax")),
                 clean_text(row.get("BottleSize")),
                 clean_text(row.get("PageURL")),
-                clean_text(row.get("LwinCode")),
-                clean_text(row.get("BBRProductCode")),
+                clean_code(row.get("LwinCode")),
+                clean_code(row.get("BBRProductCode")),
                 json.dumps(raw_payload),
             )
         )

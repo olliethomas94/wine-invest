@@ -1,3 +1,7 @@
 
 # Local database
 /db/wine.db
+
+.DS_Store
+wine.db
+/db/wine.db
