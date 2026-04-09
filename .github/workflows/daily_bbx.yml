@@ -37,7 +37,7 @@ jobs:
 
       - name: Commit updated files
         run: |
-          git add db/wine.db data/*.csv
+          git add data/*.csv
           git status
           git commit -m "Daily BBX update" || echo "No changes to commit"
           git push origin HEAD:main
