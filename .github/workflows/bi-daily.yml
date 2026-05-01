@@ -2,7 +2,7 @@ name: BI Daily Refresh
 
 on:
   schedule:
-    - cron: "30 7 * * *"
+    - cron: "30 7 * * *"   # Runs daily at 07:30 UTC
   workflow_dispatch:
 
 permissions:
@@ -26,20 +26,32 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas requests python-dotenv openpyxl
 
-      - name: Run BI refresh
+      - name: Run BI pipeline
         env:
-          BI_API_KEY: ${{ secrets.BI_API_KEY }}
+          BI_USERNAME: ${{ secrets.BI_USERNAME }}
+          BI_PASSWORD: ${{ secrets.BI_PASSWORD }}
+          BI_SALES_LEDGER: ${{ secrets.BI_SALES_LEDGER }}
+          BI_PURCHASE_LEDGER: ${{ secrets.BI_PURCHASE_LEDGER }}
         run: |
+          echo "Running BI fetch..."
           python scripts/fetch_bordeaux_index_price_list.py
+
+          echo "Building BI history..."
           python scripts/build_price_history_daily.py --bi
+
+          echo "Rebuilding comparison + signals..."
           python scripts/build_bi_best_offer_comparison.py
           python scripts/build_action_queue.py --include-rejected-csv
+
+          echo "Rebuilding trends..."
           python scripts/build_price_trends_combined.py
 
-      - name: Commit updated data
+      - name: Commit updated database
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add db/wine.db data/*.csv || true
-          git commit -m "Daily BI refresh" || echo "No changes to commit"
+
+          git add db/wine.db || true
+          git commit -m "Daily BI refresh" || echo "No changes"
+
           git push
