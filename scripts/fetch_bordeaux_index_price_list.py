@@ -161,6 +161,7 @@ def main():
     if not rows:
         raise RuntimeError("BI price list returned zero rows")
 
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(DB_PATH, timeout=60)
     conn.execute("PRAGMA busy_timeout = 60000")
 
