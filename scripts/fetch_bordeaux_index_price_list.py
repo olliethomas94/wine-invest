@@ -12,7 +12,10 @@ SALES_LEDGER = os.getenv("BI_SALES_LEDGER")
 PURCHASE_LEDGER = os.getenv("BI_PURCHASE_LEDGER")
 
 BASE_URL = "https://api.biwine.com/v2"
-DB_PATH = "db/wine.db"
+DB_PATH = from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DB_PATH = PROJECT_ROOT / "db" / "wine.db"
 
 
 def login():
