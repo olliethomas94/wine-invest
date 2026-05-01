@@ -26,6 +26,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas requests python-dotenv openpyxl
 
+      - name: Ensure folders exist
+        run: |
+          mkdir -p db
+          mkdir -p data
+
       - name: Run BI pipeline
         env:
           BI_USERNAME: ${{ secrets.BI_USERNAME }}

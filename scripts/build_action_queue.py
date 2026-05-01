@@ -40,8 +40,9 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 import pandas as pd
 
 
-PROJECT_ROOT = Path("/Users/olliethomas/Documents/wine-invest")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DB_PATH = PROJECT_ROOT / "db" / "wine.db"
+DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 ACTION_QUEUE_TABLE = "action_queue"
 REJECTED_SIGNALS_TABLE = "action_queue_rejected"
