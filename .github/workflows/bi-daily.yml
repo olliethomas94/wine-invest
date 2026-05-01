@@ -29,7 +29,7 @@ jobs:
         env:
           BI_API_KEY: ${{ secrets.BI_API_KEY }}
         run: |
-          python scripts/ingest_bi_api.py
+          python scripts/fetch_bordeaux_index_price_list.py
           python scripts/build_price_history_daily.py --bi
           python scripts/build_bi_best_offer_comparison.py
           python scripts/build_action_queue.py --include-rejected-csv
