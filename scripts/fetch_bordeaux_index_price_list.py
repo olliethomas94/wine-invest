@@ -1,21 +1,21 @@
 import os
-import json
 import sqlite3
 import requests
 from dotenv import load_dotenv
+from pathlib import Path
 
+# Load env variables
 load_dotenv()
 
+# === FIXED DB PATH (works locally + GitHub) ===
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DB_PATH = PROJECT_ROOT / "db" / "wine.db"
+
+# === BI credentials ===
 EMAIL = os.getenv("BI_USERNAME")
 PASSWORD = os.getenv("BI_PASSWORD")
 SALES_LEDGER = os.getenv("BI_SALES_LEDGER")
 PURCHASE_LEDGER = os.getenv("BI_PURCHASE_LEDGER")
-
-BASE_URL = "https://api.biwine.com/v2"
-DB_PATH = from pathlib import Path
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DB_PATH = PROJECT_ROOT / "db" / "wine.db"
 
 
 def login():
