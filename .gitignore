@@ -5,3 +5,5 @@
 .DS_Store
 wine.db
 /db/wine.db
+.env
+db/*.db
